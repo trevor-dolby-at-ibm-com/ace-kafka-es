@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policies>
+  <policy policyType="Kafka" policyName="EventStreams" policyTemplate="Kafka">
+    <bootstrapServers>localhost:9094</bootstrapServers>
+    <securityProtocol>SASL_SSL</securityProtocol>
+    <saslMechanism>SCRAM-SHA-512</saslMechanism>
+    <sslProtocol>TLSv1.2</sslProtocol>
+    <securityIdentity>kafka-credentials</securityIdentity>
+    <saslConfig>org.apache.kafka.common.security.scram.ScramLoginModule required;</saslConfig>
+    <sslKeystoreLocation></sslKeystoreLocation>
+    <sslKeystoreType>JKS</sslKeystoreType>
+    <sslKeystoreSecurityIdentity></sslKeystoreSecurityIdentity>
+    <sslKeySecurityIdentity></sslKeySecurityIdentity>
+    <sslTruststoreLocation>/tmp/es-cert.p12</sslTruststoreLocation>
+    <sslTruststoreType>PKCS12</sslTruststoreType>
+    <sslTruststoreSecurityIdentity>truststorePass</sslTruststoreSecurityIdentity>
+    <sslEnableCertificateHostnameChecking>false</sslEnableCertificateHostnameChecking>
+    <krbServiceName></krbServiceName>
+    <clientId></clientId>
+  </policy>
+</policies>
