@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-kafka-es-standard-external
+spec:
+  selector:
+    matchLabels:
+      app: ace-kafka-es-standard-external
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ace-kafka-es-standard-external
+      annotations:
+        productName: "IBM App Connect Enterprise for non-production"
+        productID: eb5b5e73f62b4dcf8c434c6274a158a7
+        productMetric: FREE
+    spec:
+      volumes:
+      - name: truststore-file
+        secret:
+          secretName: truststore-file
+      - name: truststore-pass
+        secret:
+          secretName: truststore-pass
+      - name: scram-kafka-credentials
+        secret:
+          secretName: scram-kafka-credentials
+      - name: standard-external
+        configMap:
+          name: standard-external
+      containers:
+      - name: ace-kafka-es-standard-external
+        image: tdolby/experimental:ace-kafka-es-13.0.4.0-r1
+        env:
+        - name: LICENSE
+          value: accept
+        ports:
+        - containerPort: 7800
+        volumeMounts:
+        - name: truststore-file
+          mountPath: /tmp/es-cert.p12
+          subPath: es-cert.p12
+        - name: truststore-pass
+          mountPath: /app/secrets/truststore-pass
+        - name: standard-external
+          mountPath: /home/aceuser/ace-server/run/PoliciesFromVolumeMount
+        - name: scram-kafka-credentials
+          mountPath: /app/secrets/scram-kafka-credentials

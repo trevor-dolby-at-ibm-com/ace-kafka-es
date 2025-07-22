@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) 2025 Open Technologies for Integration
+# Licensed under the MIT license (see LICENSE for details)
+
 # Aiming for something like
 # 
 # Credentials:
@@ -30,8 +33,11 @@
 #   username: VVNFUk5BTUUK
 #   password: UEFTU1dPUkQK
 #
-# and are mounted under /app/secrets or wherever CREDSDIR points to.
+# and are mounted under /app/secrets (or wherever CREDSDIR points to) 
+# using spec.containers.volumeMounts or equivalent
 #
+#        - name: scram-kafka-credentials
+#          mountPath: /app/secrets/scram-kafka-credentials
 # 
 
 # Might not be any credentials

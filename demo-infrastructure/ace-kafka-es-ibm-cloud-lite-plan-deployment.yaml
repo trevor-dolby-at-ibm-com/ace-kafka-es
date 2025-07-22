@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-kafka-es-ibm-cloud-lite-plan
+spec:
+  selector:
+    matchLabels:
+      app: ace-kafka-es-ibm-cloud-lite-plan
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ace-kafka-es-ibm-cloud-lite-plan
+      annotations:
+        productName: "IBM App Connect Enterprise for non-production"
+        productID: eb5b5e73f62b4dcf8c434c6274a158a7
+        productMetric: FREE
+    spec:
+      volumes:
+      - name: ibm-cloud-kafka-credentials
+        secret:
+          secretName: ibm-cloud-kafka-credentials
+      - name: ibm-cloud-lite-plan
+        configMap:
+          name: ibm-cloud-lite-plan
+      containers:
+      - name: ace-kafka-es-ibm-cloud-lite-plan
+        image: tdolby/experimental:ace-kafka-es-13.0.4.0-r1
+        env:
+        - name: LICENSE
+          value: accept
+        ports:
+        - containerPort: 7800
+        volumeMounts:
+        - name: ibm-cloud-lite-plan
+          mountPath: /home/aceuser/ace-server/run/PoliciesFromVolumeMount
+        - name: ibm-cloud-kafka-credentials
+          mountPath: /app/secrets/ibm-cloud-kafka-credentials

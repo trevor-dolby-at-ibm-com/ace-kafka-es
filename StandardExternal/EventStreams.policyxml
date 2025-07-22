@@ -4,11 +4,11 @@
     <bootstrapServers>dev-scram-kafka-bootstrap-integration.apps.687f8d0dea2fca3eff46b2e1.am1.techzone.ibm.com:443</bootstrapServers>
     <securityProtocol>SASL_SSL</securityProtocol>
     <saslMechanism>SCRAM-SHA-512</saslMechanism>
-    <sslProtocol>TLSv1.2</sslProtocol>
+    <sslProtocol>TLSv1.3</sslProtocol>
     <securityIdentity>kafka-credentials</securityIdentity>
     <saslConfig>org.apache.kafka.common.security.scram.ScramLoginModule required;</saslConfig>
     <sslKeystoreLocation></sslKeystoreLocation>
-    <sslKeystoreType>JKS</sslKeystoreType>
+    <sslKeystoreType></sslKeystoreType>
     <sslKeystoreSecurityIdentity></sslKeystoreSecurityIdentity>
     <sslKeySecurityIdentity></sslKeySecurityIdentity>
     <sslTruststoreLocation>/tmp/es-cert.p12</sslTruststoreLocation>

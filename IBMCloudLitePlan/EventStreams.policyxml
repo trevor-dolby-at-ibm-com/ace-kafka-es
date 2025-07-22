@@ -8,11 +8,11 @@
     <securityIdentity>kafka-credentials</securityIdentity>
     <saslConfig>org.apache.kafka.common.security.plain.PlainLoginModule required;</saslConfig>
     <sslKeystoreLocation></sslKeystoreLocation>
-    <sslKeystoreType>JKS</sslKeystoreType>
+    <sslKeystoreType></sslKeystoreType>
     <sslKeystoreSecurityIdentity></sslKeystoreSecurityIdentity>
     <sslKeySecurityIdentity></sslKeySecurityIdentity>
     <sslTruststoreLocation></sslTruststoreLocation>
-    <sslTruststoreType>PKCS12</sslTruststoreType>
+    <sslTruststoreType></sslTruststoreType>
     <sslTruststoreSecurityIdentity></sslTruststoreSecurityIdentity>
     <sslEnableCertificateHostnameChecking>true</sslEnableCertificateHostnameChecking>
     <krbServiceName></krbServiceName>

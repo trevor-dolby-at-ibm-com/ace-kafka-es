@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace-kafka-es-standard-internal
+spec:
+  selector:
+    matchLabels:
+      app: ace-kafka-es-standard-internal
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ace-kafka-es-standard-internal
+      annotations:
+        productName: "IBM App Connect Enterprise for non-production"
+        productID: eb5b5e73f62b4dcf8c434c6274a158a7
+        productMetric: FREE
+    spec:
+      volumes:
+      - name: truststore-file
+        secret:
+          secretName: truststore-file
+      - name: truststore-pass
+        secret:
+          secretName: truststore-pass
+      - name: keystore-file
+        secret:
+          secretName: keystore-file
+      - name: keystore-pass
+        secret:
+          secretName: keystore-pass
+      - name: standard-internal
+        configMap:
+          name: standard-internal
+      containers:
+      - name: ace-kafka-es-standard-internal
+        image: tdolby/experimental:ace-kafka-es-13.0.4.0-r1
+        env:
+        - name: LICENSE
+          value: accept
+        ports:
+        - containerPort: 7800
+        volumeMounts:
+        - name: truststore-file
+          mountPath: /tmp/es-cert.p12
+          subPath: es-cert.p12
+        - name: truststore-pass
+          mountPath: /app/secrets/truststore-pass
+        - name: keystore-file
+          mountPath: /tmp/user.p12
+          subPath: user.p12
+        - name: keystore-pass
+          mountPath: /app/secrets/keystore-pass
+        - name: standard-internal
+          mountPath: /home/aceuser/ace-server/run/PoliciesFromVolumeMount

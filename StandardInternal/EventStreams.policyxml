@@ -4,17 +4,17 @@
     <bootstrapServers>dev-scram-kafka-bootstrap.integration.svc:9093</bootstrapServers>
     <securityProtocol>SSL</securityProtocol>
     <saslMechanism></saslMechanism>
-    <sslProtocol>TLSv1.2</sslProtocol>
+    <sslProtocol>TLSv1.3</sslProtocol>
     <securityIdentity></securityIdentity>
     <saslConfig></saslConfig>
-    <sslKeystoreLocation></sslKeystoreLocation>
-    <sslKeystoreType>JKS</sslKeystoreType>
-    <sslKeystoreSecurityIdentity></sslKeystoreSecurityIdentity>
+    <sslKeystoreLocation>/tmp/user.p12</sslKeystoreLocation>
+    <sslKeystoreType>PKCS12</sslKeystoreType>
+    <sslKeystoreSecurityIdentity>keystorePass</sslKeystoreSecurityIdentity>
     <sslKeySecurityIdentity></sslKeySecurityIdentity>
     <sslTruststoreLocation>/tmp/es-cert.p12</sslTruststoreLocation>
     <sslTruststoreType>PKCS12</sslTruststoreType>
     <sslTruststoreSecurityIdentity>truststorePass</sslTruststoreSecurityIdentity>
-    <sslEnableCertificateHostnameChecking>false</sslEnableCertificateHostnameChecking>
+    <sslEnableCertificateHostnameChecking>true</sslEnableCertificateHostnameChecking>
     <krbServiceName></krbServiceName>
     <clientId></clientId>
   </policy>
