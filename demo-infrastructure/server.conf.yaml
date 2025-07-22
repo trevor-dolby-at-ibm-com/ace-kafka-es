@@ -1,0 +1,10 @@
+---
+# Containers will read the policies in from volume mounts rather 
+# than having them copied into the container.
+Defaults:
+  policyProject: 'PoliciesFromVolumeMount'
+Credentials:
+  ExternalCredentialsProviders:
+    CredentialsFromSecrets:
+      loadAllCredentialsCommand: '/home/aceuser/ace-server/read-creds.sh'
+      loadAllCredentialsFormat: 'yaml'

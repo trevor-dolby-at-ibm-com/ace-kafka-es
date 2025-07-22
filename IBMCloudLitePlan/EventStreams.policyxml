@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policies>
+  <policy policyType="Kafka" policyName="EventStreams" policyTemplate="Kafka">
+    <bootstrapServers>broker-3-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093,broker-2-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093,broker-4-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093,broker-0-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093,broker-5-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093,broker-1-m81pgqtr89mv4vz2.kafka.svc09.us-south.eventstreams.cloud.ibm.com:9093</bootstrapServers>
+    <securityProtocol>SASL_SSL</securityProtocol>
+    <saslMechanism>PLAIN</saslMechanism>
+    <sslProtocol>TLSv1.3</sslProtocol>
+    <securityIdentity>kafka-credentials</securityIdentity>
+    <saslConfig>org.apache.kafka.common.security.plain.PlainLoginModule required;</saslConfig>
+    <sslKeystoreLocation></sslKeystoreLocation>
+    <sslKeystoreType>JKS</sslKeystoreType>
+    <sslKeystoreSecurityIdentity></sslKeystoreSecurityIdentity>
+    <sslKeySecurityIdentity></sslKeySecurityIdentity>
+    <sslTruststoreLocation></sslTruststoreLocation>
+    <sslTruststoreType>PKCS12</sslTruststoreType>
+    <sslTruststoreSecurityIdentity></sslTruststoreSecurityIdentity>
+    <sslEnableCertificateHostnameChecking>true</sslEnableCertificateHostnameChecking>
+    <krbServiceName></krbServiceName>
+    <clientId></clientId>
+  </policy>
+</policies>
