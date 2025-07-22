@@ -1,5 +1,8 @@
 FROM cp.icr.io/cp/appc/ace:13.0.4.0-r1
 
+# See https://www.ibm.com/docs/en/app-connect/13.0.x?topic=cacerid-building-sample-supported-app-connect-enterprise-image-using-docker
+# for other base image versions.
+
 # docker build -t ace-kafka-es:13.0.4.0-r1 -f demo-infrastructure/Dockerfile .
 
 # Build projects

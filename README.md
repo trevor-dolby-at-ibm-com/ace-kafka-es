@@ -9,10 +9,12 @@ For CP4i, several options exist depending on the location of the ACE runtime:
 ![ace-es-light](demo-infrastructure/images/ace-and-es-cp4i.png#gh-light-mode-only)![ace-es-dark](demo-infrastructure/images/ace-and-es-cp4i-dark.png#gh-dark-mode-only)
 
 The primary options are
+
 1. 
 2. 
 
 The other options have drawbacks and may not behave as desired:
-3.
+
+- 
 
 
