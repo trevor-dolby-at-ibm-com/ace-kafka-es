@@ -6,7 +6,10 @@ communication can be secured, and how ACE policies and credentials should be con
 enable secure connectivity.
 
 See also Dale Lane's blog post at https://dalelane.co.uk/blog/?p=4573 for a detailed walkthrough
-of connecting ACE to Event Streams.
+of connecting ACE to Event Streams. This repo uses the same `THIS.IS.MY.TOPIC` topic for the
+flows, and the "Pre-requisites" in the blog post apply to this repo also. The flows themselves 
+are a modified form of the "Using the KafkaProducer and KafkaConsumer nodes with a Kafka topic" 
+tutorial in the ACE toolkit.
 
 ## Overview
 
@@ -63,6 +66,40 @@ The other options mentioned above (option 3 and port forwarding) answer the "Why
 question with various forms of "it can't be trusted" because it will present a TLS key with the wrong hostname.
 Although some of the options can be made to work at a technical level by switching off hostname validation, this
 is not a secure way to communicate. 
+
+## How to tell if the flows are working
+
+The expected server output is of the form
+```
+2025-07-23 13:19:31.908970: BIP1990I: Integration server 'ace-kafka-es-work-dir' starting initialization; version '13.0.4.0' (64-bit)
+2025-07-23 13:19:31.943840: BIP9905I: Initializing resource managers.
+2025-07-23 13:19:31.946120: BIP9985I: Using Java version 17. The following integration server components are unavailable with this Java version: FlowSecurityProviders/TFIM, GlobalCacheBackends/WXS, JavaNodes/CORBA, JavaNodes/WS-Security, JavaNodes/WSRR.
+2025-07-23 13:19:34.574856: BIP10112I: The resources from 'imbopentelemetry.lil' have not been loaded because the runtime component 'OpenTelemetry' has not been enabled. Reason: 'Integration Server Configuration'. Further detail: 'server.conf.yaml'.
+2025-07-23 13:19:37.975620: BIP9906I: Reading deployed resources.
+2025-07-23 13:19:37.986376: BIP9907I: Initializing deployed resources.
+2025-07-23 13:19:37.990436: BIP2155I: About to 'Initialize' the deployed resource 'KafkaConsumerApplication' of type 'Application'.
+2025-07-23 13:19:37.998052: BIP2155I: About to 'Initialize' the deployed resource 'KafkaProducerApplication' of type 'Application'.
+2025-07-23 13:19:38.305652: BIP9332I: PolicyProject 'IBMCloudLitePlan' has been reloaded successfully.
+2025-07-23 13:19:38.308508: BIP2155I: About to 'Start' the deployed resource 'KafkaConsumerApplication' of type 'Application'.
+2025-07-23 13:19:44.529176: BIP2269I: Deployed resource 'KafkaConsumerFlow' (uuid='KafkaConsumerFlow',type='MessageFlow') started successfully.
+2025-07-23 13:19:44.533240: BIP9332I: Application 'KafkaConsumerApplication' has been reloaded successfully.
+2025-07-23 13:19:44.535664: BIP2155I: About to 'Start' the deployed resource 'KafkaProducerApplication' of type 'Application'.
+2025-07-23 13:19:44.661348: BIP3132I: The HTTP Listener has started listening on port '7800' for 'http' connections.
+2025-07-23 13:19:44.664644: BIP1996I: Listening on HTTP URL '/KafkaTutorial/httpin'.
+Started native listener for HTTP input node on port 7800 for URL /KafkaTutorial/httpin
+2025-07-23 13:19:44.669128: BIP2269I: Deployed resource 'KafkaProducerFlow' (uuid='KafkaProducerFlow',type='MessageFlow') started successfully.
+2025-07-23 13:19:44.673100: BIP9332I: Application 'KafkaProducerApplication' has been reloaded successfully.
+2025-07-23 13:19:45.122392: BIP2866I: IBM App Connect Enterprise administration security is inactive.
+2025-07-23 13:19:45.147192: BIP3132I: The HTTP Listener has started listening on port '7600' for 'RestAdmin https' connections.
+2025-07-23 13:19:45.153280: BIP1991I: Integration server has finished initialization.
+```
+with no errors visible. The KafkaConsumerFlow will attempt to subscribe to the topic on startup
+so any errors in connection parameters should appear without any need for user action.
+
+To publish a message, curl can be used as follows:
+```
+curl -X POST --data  {"test":true} http://localhost:7800/KafkaTutorial/httpin
+```
 
 ## External CP4i
 
