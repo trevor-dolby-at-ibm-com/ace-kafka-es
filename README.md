@@ -22,8 +22,8 @@ basic ideas are as follows:
 ![ace-es-light](demo-infrastructure/images/ace-and-es-cp4i.png#gh-light-mode-only)![ace-es-dark](demo-infrastructure/images/ace-and-es-cp4i-dark.png#gh-dark-mode-only)
 The primary options are
 
-1. ACE outside the cluster connecting to the external listener for Event Streams, using the OpenShift ingress Routes.
-2. ACE inside the cluster connecting to the internal listener for Event Streams, using the OpenShift internal services.
+1. ACE outside the cluster connecting to the external listener for Event Streams, using the OpenShift ingress Routes. This is the [External CP4i](#external-cp4i) section below.
+2. ACE inside the cluster connecting to the internal listener for Event Streams, using the OpenShift internal services. This is the [Internal CP4i](#internal-cp4i) section below.
 
 The other options have drawbacks and may not behave as desired:
 
@@ -40,7 +40,8 @@ The other options have drawbacks and may not behave as desired:
 For the Lite plan on IBM Cloud, the (simplified) picture is as follows:
 
 ![ace-es-cloud-light](demo-infrastructure/images/ace-and-es-cloud.png#gh-light-mode-only)![ace-es-cloud-dark](demo-infrastructure/images/ace-and-es-cloud-dark.png#gh-dark-mode-only)
-This resembles option 1 in the CP4i picture but uses different security protocols.
+This resembles option 1 in the CP4i picture but uses different security protocols, and is described
+further in the [IBM Cloud Lite Plan](#ibm-cloud-lite-plan) section below.
 
 ## Security options
 
