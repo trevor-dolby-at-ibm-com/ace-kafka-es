@@ -54,9 +54,9 @@ Different connect options in the diagrams above have different answers but all a
 
 |Option|Why can the server be trusted?|Why can the client be trusted?|Client artifacts needed|
 |---|---|---|---|
-|External CP4i|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client sends SCRAM credentials issued by Event Streams|es-cert.p12 and SCRAM credentials|
-|Internal CP4i|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client presents a TLS key (mTLS) issued by Event Streams or provided by an ES administrator|es-cert.p12 and user.p12|
-|IBM Cloud Lite Plan|The server presents a TLS key for the correct hostname issued by a globally-trusted CA (Let's Encrypt at the time of writing)|The client sends a cloud token provided by Event Streams|Cloud token|
+|[External CP4i](#external-cp4i)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client sends SCRAM credentials issued by Event Streams|es-cert.p12 and SCRAM credentials|
+|[Internal CP4i](#internal-cp4i)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client presents a TLS key (mTLS) issued by Event Streams or provided by an ES administrator|es-cert.p12 and user.p12|
+|[IBM Cloud Lite Plan](#ibm-cloud-lite-plan)|The server presents a TLS key for the correct hostname issued by a globally-trusted CA (Let's Encrypt at the time of writing)|The client sends a cloud token provided by Event Streams|Cloud token|
 
 The other options mentioned above (option 3 and port forwarding) answer the "Why can the server be trusted?"
 question with various forms of "it can't be trusted" because it will present a TLS key with the wrong hostname.
