@@ -37,8 +37,9 @@ The other options have drawbacks and may not behave as desired:
 - Attempting to port-forward from the ACE system into the cluster will not work as expected due to
   the same issues presented by option 3 and also because of the way Kafka works: the client connects
   to the bootstrap server and is then told to connect to other Kafka servers, and those later connections
-  will be made to hostnames that will in general not be forwarded. Option 1 is preferred over port
-  forwarding.
+  will be made to hostnames that will in general not be forwarded. This applies to connections made to
+  an Event Gateway also (it replies with hosts from KAFKA_ADVERTISED_LISTENER), and so option 1 is
+  preferred over port forwarding.
 
 For the Lite plan on IBM Cloud, the (simplified) picture is as follows:
 
