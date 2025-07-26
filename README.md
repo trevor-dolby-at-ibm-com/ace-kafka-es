@@ -326,9 +326,7 @@ and connections using
     <bootstrapServers>localhost:8192</bootstrapServers>
     <sslEnableCertificateHostnameChecking>false</sslEnableCertificateHostnameChecking>
 ```
-will work. In theory it should be possible to use only port 8192 (specified three times in
-KAFKA_ADVERTISED_LISTENER) but this is likely to cause issues eventually if the clients notice 
-and de-dupe the list.
+will work. 
 
 This is very similar in concept to running the Event Gateway as a docker container (described at
 https://ibm.github.io/event-automation/eem/installing/install-docker-egw/) using port forwarding
