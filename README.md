@@ -347,4 +347,12 @@ file, the key elements of the policy that tie the solution together are as follo
 The authentication in this case is using SASL_SSL PLAIN (similar to the [IBM Cloud Lite Plan](#ibm-cloud-lite-plan))
 and the credentials come from the Event Endpoint Management UI's catalog of topics, where the "Subscribe"
 button for a particular topic and gateway option ("THIS.IS.MY.TOPIC.ALIAS" and "port forwading", for example)
-provides credentials and connection information.
+provides credentials and connection information. The truststore is created from the CA and TLS certifcates
+(but not the private key) created during the creation of the Event Gateway using commands such as 
+```
+keytool -importcert -keystore c:\tmp\pf-egw-cert.p12 -storepass changeit -storetype PKCS12 -file "c:\Users\temp\Downloads\port-forward-cert-chain.pem"
+```
+The equivalent table entry for this case is
+|Option|Why can the server be trusted?|Why can the client be trusted?|Client artifacts needed|
+|---|---|---|---|
+|[Event Gateway](#event-gateway)|The gateway presents a TLS key for the correct hostname (`localhost`, in this case) issued by a CA in the truststore provided by the gateway administrator|The client sends SCRAM credentials issued by Event Endpoint Management's catalog|pf-egw-cert.p12 and SCRAM credentials|
