@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: port-forward-gw-group-pf-1-svc
+  namespace: integration
+spec:
+  ipFamilies:
+    - IPv4
+  ports:
+    - name: gateway
+      protocol: TCP
+      port: 9092
+      targetPort: 9092
+  type: ClusterIP
+  selector:
+    app: port-forward-gw-group-pf-1

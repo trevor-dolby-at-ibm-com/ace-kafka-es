@@ -37,9 +37,7 @@ The other options have drawbacks and may not behave as desired:
 - Attempting to port-forward from the ACE system into the cluster will not work as expected due to
   the same issues presented by option 3 and also because of the way Kafka works: the client connects
   to the bootstrap server and is then told to connect to other Kafka servers, and those later connections
-  will be made to hostnames that will in general not be forwarded. This applies to connections made to
-  a normal Event Gateway also (it replies with hosts from KAFKA_ADVERTISED_LISTENER, but see [here](#event-gateway)
-  for a possible workaround), and so option 1 is preferred over port forwarding.
+  will be made to hostnames that will in general not be forwarded. It is possible to use an [Event Gateway](#event-gateway) to work around this, but otherwise option 1 is preferred over port forwarding.
 
 For the Lite plan on IBM Cloud, the (simplified) picture is as follows:
 
@@ -302,32 +300,52 @@ service to support many different customers with the same server certificate.
 ## Event Gateway
 
 As noted above, a normal Event Gateway will advertise external route addresses because those are
-what is set in the KAFKA_ADVERTISED_LISTENER parameter (many addresses of the form 
-rt-10-tools.apps.688037023bdaabb2db30f3a0.ocp.techzone.ibm.com:443) but it is possible to funnel 
-all connections across a single port for bootstrap as well as eventing traffic. This would only be
-useful for Kubernetes clusters without working ingress where port forwarding is the only possible
-solution, as normal scenarios would use internal or external connections as described above.
+what is set in the KAFKA_ADVERTISED_LISTENER parameter (usually including many addresses of the form 
+`rt-10-tools.apps.688037023bdaabb2db30f3a0.ocp.techzone.ibm.com:443`) but it is possible to funnel 
+all connections across a single port for bootstrap as well as eventing traffic:
 
-Setting the EGW parameters as follows
+![ace-and-es-gateway-light](demo-infrastructure/images/ace-and-es-gateway.png#gh-light-mode-only)![ace-and-es-gateway-dark](demo-infrastructure/images/ace-and-es-gateway-dark.png#gh-dark-mode-only)
+
+This approach is a combination of the standard Docker approach described at https://ibm.github.io/event-automation/eem/installing/install-docker-egw/ 
+and the "Kubernetes Deployment" option in the Event Endpoint Management UI "Add Gateway" wizard. The
+initial steps follow the Docker pattern (creating certificates, etc) but the gateway itself should
+be deployed as a Kubernetes deployment with the settings modified as follows
 ```
             - name: GATEWAY_PORT
-              value: '8192'
+              value: '9092'
             - name: KAFKA_ADVERTISED_LISTENER
-              value: 'localhost:8192,localhost:8193,localhost:8194'
+              value: 'localhost:9092,localhost:9093,localhost:9094'
 ```
-with an appropriate service to forward port 8192 allows the following commands run locally
-```
-oc --namespace tools port-forward --address 0.0.0.0 svc/localhost-eem-demo-gw-ibm-egw-svc 8192:8192
-oc --namespace tools port-forward --address 0.0.0.0 svc/localhost-eem-demo-gw-ibm-egw-svc 8193:8192
-oc --namespace tools port-forward --address 0.0.0.0 svc/localhost-eem-demo-gw-ibm-egw-svc 8194:8192
-```
-and connections using
-```
-    <bootstrapServers>localhost:8192</bootstrapServers>
-    <sslEnableCertificateHostnameChecking>false</sslEnableCertificateHostnameChecking>
-```
-will work. 
+to cause the gateway to advertise localhost addresses to Kafka clients connecting to the bootstrap
+server. A Kubernetes service is needed to allow the gateway to be found by the port forwarding 
+(see [example](/demo-infrastructure/port-forward-gw-group-pf-1-svc.yaml)) without needing to use a
+(changing) pod name.
 
-This is very similar in concept to running the Event Gateway as a docker container (described at
-https://ibm.github.io/event-automation/eem/installing/install-docker-egw/) using port forwarding
-to access the Kubernetes container.
+Once this gateway is running and topics can be published to it, then the port forwarding can be run
+locally with the following commands (adjust as needed for namespaces and service names):
+```
+oc --namespace integration port-forward --address 0.0.0.0 svc/port-forward-gw-group-pf-1-svc 9092:9092
+oc --namespace integration port-forward --address 0.0.0.0 svc/port-forward-gw-group-pf-1-svc 9093:9092
+oc --namespace integration port-forward --address 0.0.0.0 svc/port-forward-gw-group-pf-1-svc 9094:9092
+```
+
+ACE connection policies are similar to the [External CP4i](#external-cp4i) scenario but in this case
+the connections are made to the local end of the port forwarding tunnel. As can be seen in the
+[EventGatewayPortForward/EventStreams.policyxml](/EventGatewayPortForward/EventStreams.policyxml)
+file, the key elements of the policy that tie the solution together are as follows:
+```
+    <bootstrapServers>localhost:9092</bootstrapServers>
+    <securityProtocol>SASL_SSL</securityProtocol>
+    <saslMechanism>PLAIN</saslMechanism>
+    <sslProtocol>TLSv1.3</sslProtocol>
+    <securityIdentity>kafka-credentials</securityIdentity>
+    <saslConfig>org.apache.kafka.common.security.plain.PlainLoginModule required;</saslConfig>
+    <sslTruststoreLocation>c:\tmp\pf-egw-cert.p12</sslTruststoreLocation>
+    <sslTruststoreType>PKCS12</sslTruststoreType>
+    <sslTruststoreSecurityIdentity>changeit</sslTruststoreSecurityIdentity>
+    <sslEnableCertificateHostnameChecking>true</sslEnableCertificateHostnameChecking>
+```
+The authentication in this case is using SASL_SSL PLAIN (similar to the [IBM Cloud Lite Plan](#ibm-cloud-lite-plan))
+and the credentials come from the Event Endpoint Management UI's catalog of topics, where the "Subscribe"
+button for a particular topic and gateway option ("THIS.IS.MY.TOPIC.ALIAS" and "port forwading", for example)
+provides credentials and connection information.

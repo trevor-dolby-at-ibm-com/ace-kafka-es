@@ -1,0 +1,36 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: eem-demo-gw-ibm-egw-localhost-cert
+  namespace: integration
+  labels:
+    app.kubernetes.io/component: ibm-egw
+    app.kubernetes.io/instance: eem-demo-gw
+    app.kubernetes.io/name: ibm-event-endpoint-management
+    events.ibm.com/component: eem-demo-gw-ibm-egw
+spec:
+  dnsNames:
+    - localhost
+    - localhost.localdomain
+  duration: 7776000000000000ns
+  issuerRef:
+    kind: Issuer
+    name: eem-demo-gw-ibm-egw-iss
+  privateKey:
+    algorithm: RSA
+    rotationPolicy: Always
+  secretName: eem-demo-gw-ibm-egw-localhost-cert
+  secretTemplate:
+    labels:
+      app.kubernetes.io/component: ibm-egw
+      app.kubernetes.io/instance: eem-demo-gw
+      app.kubernetes.io/name: ibm-event-endpoint-management
+      backup.events.ibm.com/component: eventgateway
+      events.ibm.com/component: eem-demo-gw-ibm-egw
+  subject:
+    organizations:
+      - IBM Event Endpoint Management
+  usages:
+    - client auth
+    - digital signature
+    - server auth
