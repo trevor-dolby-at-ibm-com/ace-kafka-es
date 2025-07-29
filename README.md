@@ -303,7 +303,6 @@ As noted above, a normal Event Gateway will advertise external route addresses b
 what is set in the KAFKA_ADVERTISED_LISTENER parameter (usually including many addresses of the form 
 `rt-10-tools.apps.688037023bdaabb2db30f3a0.ocp.techzone.ibm.com:443`) but it is possible to funnel 
 all connections across a single port for bootstrap as well as eventing traffic:
-
 ![ace-and-es-gateway-light](demo-infrastructure/images/ace-and-es-gateway.png#gh-light-mode-only)![ace-and-es-gateway-dark](demo-infrastructure/images/ace-and-es-gateway-dark.png#gh-dark-mode-only)
 
 This approach is a combination of the standard Docker approach described at https://ibm.github.io/event-automation/eem/installing/install-docker-egw/ 
