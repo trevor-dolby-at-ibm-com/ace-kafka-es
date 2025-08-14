@@ -14,9 +14,11 @@ tutorial in the ACE toolkit.
 ## Overview
 
 The CP4i examples use an Event Streams instance based on the "Development SCRAM" sample YAML 
-(see "YAML view"->"Samples" in the OpenShift UI) and many other configurations are possible. 
-The principles in this repo (how components can trust each other, ACE configuration possiblities, etc)
-should apply in general with appropriate modifications.
+(see "YAML view"->"Samples" in the OpenShift UI) and many other configurations are possible.
+In particular, the way the sample configures SCRAM and TLS listeners is not the only way: 
+TLS can be used for external authentication, SCRAM for internal, etc. The principles in this 
+repo (how components can trust each other, ACE configuration possiblities, etc) should apply 
+in general, as should the examples with appropriate modifications.
 
 For CP4i, several options exist depending on the location of the ACE runtime. This diagram is
 a simplified view (Kafka has more than one network listener while only one is shown, etc) but the
@@ -25,8 +27,8 @@ basic ideas are as follows:
 ![ace-es-light](demo-infrastructure/images/ace-and-es-cp4i.png#gh-light-mode-only)![ace-es-dark](demo-infrastructure/images/ace-and-es-cp4i-dark.png#gh-dark-mode-only)
 The primary options are
 
-1. ACE outside the cluster connecting to the external listener for Event Streams, using the OpenShift ingress Routes. This is the [External CP4i](#external-cp4i) section below.
-2. ACE inside the cluster connecting to the internal listener for Event Streams, using the OpenShift internal services. This is the [Internal CP4i](#internal-cp4i) section below.
+1. ACE outside the cluster connecting to the external listener for Event Streams, using the OpenShift ingress Routes. This is the [SCRAM External](#scram-external) section below.
+2. ACE inside the cluster connecting to the internal listener for Event Streams, using the OpenShift internal services. This is the [TLS Internal](#tls-internal) section below.
 
 The other options have drawbacks and may not behave as desired:
 
@@ -57,8 +59,8 @@ Different connect options in the diagrams above have different answers but all a
 
 |Option|Why can the server be trusted?|Why can the client be trusted?|Client artifacts needed|
 |---|---|---|---|
-|[External CP4i](#external-cp4i)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client sends SCRAM credentials issued by Event Streams|es-cert.p12 and SCRAM credentials|
-|[Internal CP4i](#internal-cp4i)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client presents a TLS key (mTLS) issued by Event Streams or provided by an ES administrator|es-cert.p12 and user.p12|
+|[SCRAM External](#scram-external)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client sends SCRAM credentials issued by Event Streams|es-cert.p12 and SCRAM credentials|
+|[TLS Internal](#tls-internal)|The server presents a TLS key for the correct hostname issued by a CA in the truststore provided by an ES administrator|The client presents a TLS key (mTLS) issued by Event Streams or provided by an ES administrator|es-cert.p12 and user.p12|
 |[IBM Cloud Lite Plan](#ibm-cloud-lite-plan)|The server presents a TLS key for the correct hostname issued by a globally-trusted CA (Let's Encrypt at the time of writing)|The client sends a cloud token provided by Event Streams|Cloud token|
 
 The other options mentioned above (option 3 and port forwarding) answer the "Why can the server be trusted?"
@@ -100,7 +102,7 @@ To publish a message, curl can be used as follows:
 curl -X POST --data  {"test":true} http://localhost:7800/KafkaTutorial/httpin
 ```
 
-## External CP4i
+## SCRAM External
 
 A truststore is needed to ensure the client can trust the server, and SCRAM credentials are needed to 
 ensure the server can trust the client. A list of bootstrap servers is also needed, and that can be
@@ -124,7 +126,7 @@ and are given to ACE with a command such as
 mqsisetdbparms -w /tmp/ace-kafka-es-work-dir -n kafka::kafka-credentials -u ace-kafka-es -p longPasswordString
 ```
 
-The [StandardExternal/EventStreams.policyxml](/StandardExternal/EventStreams.policyxml) file shows the 
+The [SCRAMExternal/EventStreams.policyxml](/SCRAMExternal/EventStreams.policyxml) file shows the 
 key elements of the policy that tie the solution together:
 ```
     <bootstrapServers>dev-scram-kafka-bootstrap-integration.apps.687f8d0dea2fca3eff46b2e1.am1.techzone.ibm.com:443</bootstrapServers>
@@ -142,7 +144,7 @@ Note the `securityProtocol`, `saslMechanism`, and `saslConfig` lines that are ne
 connection; these values can be found in the "Sample configuration properties" section of the 
 "Connect to this cluster" wizard and also in [Dale Lane's blog post](https://dalelane.co.uk/blog/?p=4573)
 
-## Internal CP4i
+## TLS Internal
 
 A truststore is needed to ensure the client can trust the server, and a client keystore is needed
 to ensure the server can trust the client. A list of bootstrap servers is also needed, and that can be
@@ -181,7 +183,7 @@ the password in the `user.password` file should be given to ACE with a command s
 mqsisetdbparms -w /tmp/ace-kafka-es-work-dir -n keystore::keystorePass -u dummy -p RaNdOmLeTtErS
 ```
 The other two files are ignored for this use case, and the
-[StandardInternal/EventStreams.policyxml](/StandardInternal/EventStreams.policyxml) file shows the 
+[TLSInternal/EventStreams.policyxml](/TLSInternal/EventStreams.policyxml) file shows the 
 key elements of the policy that tie the solution together:
 ```
     <bootstrapServers>dev-scram-kafka-bootstrap.integration.svc:9093</bootstrapServers>
@@ -328,7 +330,7 @@ oc --namespace integration port-forward --address 0.0.0.0 svc/port-forward-gw-gr
 oc --namespace integration port-forward --address 0.0.0.0 svc/port-forward-gw-group-pf-1-svc 9094:9092
 ```
 
-ACE connection policies are similar to the [External CP4i](#external-cp4i) scenario but in this case
+ACE connection policies are similar to the [SCRAM External](#scram-external) scenario but in this case
 the connections are made to the local end of the port forwarding tunnel. As can be seen in the
 [EventGatewayPortForward/EventStreams.policyxml](/EventGatewayPortForward/EventStreams.policyxml)
 file, the key elements of the policy that tie the solution together are as follows:

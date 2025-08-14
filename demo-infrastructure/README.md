@@ -15,8 +15,8 @@ After logging into the cluster and switching to the correct namespace, the confi
 can be created as follows:
 
 ```
-kubectl create configmap standard-external --from-file=EventStreams.policyxml=StandardExternal/EventStreams.policyxml --from-file=policy.descriptor=StandardExternal/policy.descriptor
-kubectl create configmap standard-internal --from-file=EventStreams.policyxml=StandardInternal/EventStreams.policyxml --from-file=policy.descriptor=StandardInternal/policy.descriptor
+kubectl create configmap scram-external --from-file=EventStreams.policyxml=SCRAMExternal/EventStreams.policyxml --from-file=policy.descriptor=SCRAMExternal/policy.descriptor
+kubectl create configmap tls-internal --from-file=EventStreams.policyxml=TLSInternal/EventStreams.policyxml --from-file=policy.descriptor=TLSInternal/policy.descriptor
 kubectl create configmap ibm-cloud-lite-plan --from-file=EventStreams.policyxml=IBMCloudLitePlan/EventStreams.policyxml --from-file=policy.descriptor=IBMCloudLitePlan/policy.descriptor
 kubectl create configmap external-via-service --from-file=EventStreams.policyxml=ExternalViaService/EventStreams.policyxml --from-file=policy.descriptor=ExternalViaService/policy.descriptor
 ```
@@ -35,8 +35,8 @@ Deploying the containers:
 ```
 kubectl apply -f demo-infrastructure/ace-kafka-es-external-via-service-deployment.yaml
 kubectl apply -f demo-infrastructure/ace-kafka-es-ibm-cloud-lite-plan-deployment.yaml
-kubectl apply -f demo-infrastructure/ace-kafka-es-standard-external-deployment.yaml
-kubectl apply -f demo-infrastructure/ace-kafka-es-standard-internal-deployment.yaml
+kubectl apply -f demo-infrastructure/ace-kafka-es-scram-external-deployment.yaml
+kubectl apply -f demo-infrastructure/ace-kafka-es-tls-internal-deployment.yaml
 ```
 
 Utilities:
@@ -48,8 +48,8 @@ kubectl delete secret keystore-pass
 kubectl delete secret scram-kafka-credentials 
 kubectl delete secret ibm-cloud-kafka-credentials 
 
-kubectl delete configmap standard-external
-kubectl delete configmap standard-internal
+kubectl delete configmap scram-external
+kubectl delete configmap tls-internal
 kubectl delete configmap ibm-cloud-lite-plan
 kubectl delete configmap external-via-service
 ```

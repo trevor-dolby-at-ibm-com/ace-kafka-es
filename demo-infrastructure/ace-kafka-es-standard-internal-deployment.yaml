@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ace-kafka-es-standard-internal
+  name: ace-kafka-es-tls-internal
 spec:
   selector:
     matchLabels:
-      app: ace-kafka-es-standard-internal
+      app: ace-kafka-es-tls-internal
   replicas: 1
   template:
     metadata:
       labels:
-        app: ace-kafka-es-standard-internal
+        app: ace-kafka-es-tls-internal
       annotations:
         productName: "IBM App Connect Enterprise for non-production"
         productID: eb5b5e73f62b4dcf8c434c6274a158a7
@@ -29,11 +29,11 @@ spec:
       - name: keystore-pass
         secret:
           secretName: keystore-pass
-      - name: standard-internal
+      - name: tls-internal
         configMap:
-          name: standard-internal
+          name: tls-internal
       containers:
-      - name: ace-kafka-es-standard-internal
+      - name: ace-kafka-es-tls-internal
         image: tdolby/experimental:ace-kafka-es-13.0.4.0-r1
         env:
         - name: LICENSE
@@ -51,5 +51,5 @@ spec:
           subPath: user.p12
         - name: keystore-pass
           mountPath: /app/secrets/keystore-pass
-        - name: standard-internal
+        - name: tls-internal
           mountPath: /home/aceuser/ace-server/run/PoliciesFromVolumeMount

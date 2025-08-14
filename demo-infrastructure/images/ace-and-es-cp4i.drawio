@@ -1,10 +1,10 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.4 Chrome/138.0.7204.97 Electron/37.2.1 Safari/537.36" scale="1.5" border="0" version="28.0.4">
   <diagram name="Page-1" id="ebQjVzU91OkPXuFwU88t">
-    <mxGraphModel dx="1272" dy="899" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
+    <mxGraphModel dx="1119" dy="635" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="1700" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="fbcHfSkknigwFqv8QvJB-17" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Standard External&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+        <mxCell id="fbcHfSkknigwFqv8QvJB-17" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;External&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
           <mxGeometry x="410" y="90" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="5Rh6sSmCLg1GtMQXwpnh-5" value="OpenShift cluster" style="swimlane;whiteSpace=wrap;html=1;swimlaneFillColor=default;strokeColor=#C24747;strokeWidth=2;" parent="1" vertex="1">
@@ -53,8 +53,8 @@
         <mxCell id="5Rh6sSmCLg1GtMQXwpnh-27" value="Ingress" style="rounded=1;whiteSpace=wrap;html=1;textDirection=vertical-lr;fillColor=light-dark(#ffe7e5, #512d2b);strokeColor=#b85450;rotation=-180;" parent="5Rh6sSmCLg1GtMQXwpnh-5" vertex="1">
           <mxGeometry x="20" y="40" width="30" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="5Rh6sSmCLg1GtMQXwpnh-38" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Standard Internal&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="5Rh6sSmCLg1GtMQXwpnh-5" vertex="1">
-          <mxGeometry x="280" y="150" width="60" height="30" as="geometry" />
+        <mxCell id="5Rh6sSmCLg1GtMQXwpnh-38" value="&lt;b&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;Internal&lt;/font&gt;&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="5Rh6sSmCLg1GtMQXwpnh-5" vertex="1">
+          <mxGeometry x="270" y="155" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="kRqdh9ee5JRcNYlr1lat-31" value="&lt;b&gt;ExternalViaService&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="5Rh6sSmCLg1GtMQXwpnh-5" vertex="1">
           <mxGeometry x="80" y="187" width="60" height="30" as="geometry" />
