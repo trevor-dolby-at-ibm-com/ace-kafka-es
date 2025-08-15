@@ -142,7 +142,10 @@ key elements of the policy that tie the solution together:
 ```
 Note the `securityProtocol`, `saslMechanism`, and `saslConfig` lines that are needed to enable the
 connection; these values can be found in the "Sample configuration properties" section of the 
-"Connect to this cluster" wizard and also in [Dale Lane's blog post](https://dalelane.co.uk/blog/?p=4573)
+"Connect to this cluster" wizard and also in [Dale Lane's blog post](https://dalelane.co.uk/blog/?p=4573).
+Although the user and password are included in the "Sample code" `sasl.jaas.config` line on the ES
+web UI, the ACE policy should not include the secret information as that is handled via the 
+`securityIdentity` setting and mqsisetdbparms/mqsicredentials.
 
 ## TLS Internal
 
